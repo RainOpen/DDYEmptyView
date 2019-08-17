@@ -183,9 +183,9 @@ DDYEmptyViewProperty(CGPoint, offset)
 
 - (void)layoutContentSubviews {
     
-    CGRect imageFrame = CGRectZero;
+    CGSize imageSize = CGSizeZero;
     CGFloat imageTitleMargin = (self.imageValue && self.titleValue) ? 20 : 0;
-    CGRect titleFrame = CGRectZero;
+    CGSize titleSize = CGSizeZero;
     CGFloat titleDetailMargin = (self.titleValue && self.detailValue) ? 20 : 0;
     CGRect detailFrame = CGRectZero;
     CGFloat detailActionMargin = (self.detailValue && self.actionTitleValue) ? 20 : 0;
@@ -198,17 +198,25 @@ DDYEmptyViewProperty(CGPoint, offset)
         self.imageView.image = self.imageValue;
         CGFloat imgW = self.imageSizeValue.width ?: [DDYEmptyConfig defaultConfig].imageSize.width ?: self.imageValue.size.width;
         CGFloat imgH = self.imageSizeValue.height ?: [DDYEmptyConfig defaultConfig].imageSize.height ?: self.imageValue.size.height;
-        imageFrame = CGRectMake(0, 0, imgW, imgH);
+        imageSize = CGSizeMake(imgW, imgH);
     }
-    // 图片和标题
-    if (self.imageValue && self.titleValue) {
+    // 图片和标题间距
+    if (self.imageValue && self.titleValue && self.titleValue.length>0) {
         imageTitleMargin = self.imageTitleMarginValue ?: [DDYEmptyConfig defaultConfig].imageTitleMargin;
     }
-    
-    if (self.titleValue) {
-        
+    // 标题
+    if (self.titleValue && self.titleValue.length>0) {
+        UIFont *font = self.titleFontValue ?: [DDYEmptyConfig defaultConfig].titleFont ?: [UIFont systemFontOfSize:16];
+        self.titleLabel.font = font;
+        self.titleLabel.text = self.titleValue;
+        self.titleLabel.preferredMaxLayoutWidth = self.titleMaxWidthValue>0 ? self.titleMaxWidthValue : 280;
+        self.titleLabel.textColor = self.titleColorValue ?: [DDYEmptyConfig defaultConfig].titleColor ?: ddyEmptyColor(120.0, 120.0, 120.0);
+        titleSize = [self sizeWithLabel:self.titleLabel];
     }
-    
+    // 标题和详细描述间距
+    if (self.titleValue && self.titleValue.length>0 && self.detailValue && self.detailValue.length>0) {
+        titleDetailMargin = self.titleDetailMarginValue ?: [DDYEmptyConfig defaultConfig].titleDetailMargin;
+    }
     
 }
 
@@ -251,15 +259,15 @@ DDYEmptyViewProperty(CGPoint, offset)
     }
 }
 
-- (CGSize)sizeWithTitle:(NSString *)title font:(UIFont *)font width:(CGFloat)width {
-    UILabel *label = [[UILabel alloc] init];
-    label.text = title;
-    label.font = font;
-    label.numberOfLines = 0;
-    label.preferredMaxLayoutWidth = width;
-    label.textAlignment = NSTextAlignmentCenter;
-    [label sizeToFit];
-    return label.frame.size;
+- (CGSize)sizeWithLabel:(UILabel *)label {
+    UILabel *tempLabel = [[UILabel alloc] init];
+    tempLabel.text = label.text;
+    tempLabel.font = label.font;
+    tempLabel.numberOfLines = 0;
+    tempLabel.preferredMaxLayoutWidth = label.preferredMaxLayoutWidth;
+    tempLabel.textAlignment = NSTextAlignmentCenter;
+    [tempLabel sizeToFit];
+    return tempLabel.frame.size;
 }
 
 @end
