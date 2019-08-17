@@ -245,4 +245,12 @@ DDYEmptyViewProperty(CGPoint, offset)
     }
 }
 
+- (CGSize)sizeWithTitle:(NSString *)title font:(UIFont *)font {
+    UILabel *label = [[UILabel alloc] init];
+    label.text = title;
+    label.font = font;
+    label.numberOfLines = 0;
+    label.preferredMaxLayoutWidth = 
+}
+
 @end
