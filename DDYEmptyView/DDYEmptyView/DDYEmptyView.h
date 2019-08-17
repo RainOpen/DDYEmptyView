@@ -34,12 +34,16 @@
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleFont)(UIFont *titleFont);
 /** 标题字色 默认RGBA(0.3, 0.3, 0.3, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleColor)(UIColor *titleColor);
+/** 标题最大长度 */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^titleMaxWidth)(CGFloat titleMaxWidth);
 /** 标题与详细描述间距 默认20 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleDetailMargin)(CGFloat titleDetailMargin);
 /** 详细描述字体 默认14号字体 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailFont)(UIFont *detailFont);
 /** 详细描述字色 默认RGBA(0.5, 0.5, 0.5, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailColor)(UIColor *detailColor);
+/** 详细描述最大长度 */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^detailMaxWidth)(CGFloat detailMaxWidth);
 /** 详细描述与按钮间距 默认20 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailActionMargin)(CGFloat detailActionMargin);
 /** 按钮字体 默认14号字体 */
