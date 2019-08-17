@@ -42,12 +42,16 @@ inline UIColor *ddyEmptyColor(int r, int g, int b) { return [UIColor colorWithRe
 @property (nonatomic, strong) UIFont *titleFontValue;
 /** 标题字色 默认RGBA(0.3, 0.3, 0.3, 1.0) */
 @property (nonatomic, strong) UIColor *titleColorValue;
+/** 标题最大长度 */
+@property (nonatomic, assign) CGFloat titleMaxWidthValue;
 /** 标题与详细描述间距 默认20 */
 @property (nonatomic, assign) CGFloat titleDetailMarginValue;
 /** 详细描述字体 默认14号字体 */
 @property (nonatomic, strong) UIFont *detailFontValue;
 /** 详细描述字色 默认RGBA(0.5, 0.5, 0.5, 1.0) */
 @property (nonatomic, strong) UIColor *detailColorValue;
+/** 详细描述最大长度 */
+@property (nonatomic, assign) CGFloat detailMaxWidthValue;
 /** 详细描述与按钮间距 默认20 */
 @property (nonatomic, assign) CGFloat detailActionMarginValue;
 /** 按钮字体 默认14号字体 */
@@ -100,9 +104,11 @@ DDYEmptyViewProperty(CGSize, imageSize)
 DDYEmptyViewProperty(CGFloat, imageTitleMargin)
 DDYEmptyViewProperty(UIFont *, titleFont)
 DDYEmptyViewProperty(UIColor *, titleColor)
+DDYEmptyViewProperty(CGFloat, titleMaxWidth)
 DDYEmptyViewProperty(CGFloat, titleDetailMargin)
 DDYEmptyViewProperty(UIFont *, detailFont)
 DDYEmptyViewProperty(UIColor *, detailColor)
+DDYEmptyViewProperty(CGFloat, detailMaxWidth)
 DDYEmptyViewProperty(CGFloat, detailActionMargin)
 DDYEmptyViewProperty(UIFont *, actionFont)
 DDYEmptyViewProperty(UIColor *, actionColor)
@@ -245,12 +251,15 @@ DDYEmptyViewProperty(CGPoint, offset)
     }
 }
 
-- (CGSize)sizeWithTitle:(NSString *)title font:(UIFont *)font {
+- (CGSize)sizeWithTitle:(NSString *)title font:(UIFont *)font width:(CGFloat)width {
     UILabel *label = [[UILabel alloc] init];
     label.text = title;
     label.font = font;
     label.numberOfLines = 0;
-    label.preferredMaxLayoutWidth = 
+    label.preferredMaxLayoutWidth = width;
+    label.textAlignment = NSTextAlignmentCenter;
+    [label sizeToFit];
+    return label.frame.size;
 }
 
 @end
