@@ -14,7 +14,7 @@
 
 /** 标题字体 默认16号字体 */
 @property (nonatomic, strong) UIFont *titleFont;
-/** 标题字色 默认RGBA(0.3, 0.3, 0.3, 1.0) */
+/** 标题字色 默认RGBA(80.0/255.0, 80.0/255.0, 80.0/255.0, 1.0) */
 @property (nonatomic, strong) UIColor *titleColor;
 
 /** 标题与详细描述间距 默认20 */
@@ -22,7 +22,7 @@
 
 /** 详细描述字体 默认14号字体 */
 @property (nonatomic, strong) UIFont *detailFont;
-/** 详细描述字色 默认RGBA(0.5, 0.5, 0.5, 1.0) */
+/** 详细描述字色 默认RGBA(120.0/255.0, 120.0/255.0, 120.0/255.0, 1.0) */
 @property (nonatomic, strong) UIColor *detailColor;
 
 /** 详细描述与按钮间距 默认20 */
@@ -30,7 +30,7 @@
 
 /** 按钮字体 默认14号字体 */
 @property (nonatomic, strong) UIFont *actionFont;
-/** 按钮字色 默认RGBA(0.3, 0.3, 0.3, 1.0) */
+/** 按钮字色 默认RGBA(80.0/255.0, 80.0/255.0, 80.0/255.0, 1.0) */
 @property (nonatomic, strong) UIColor *actionColor;
 /** 按钮内边距 默认zero */
 @property (nonatomic) UIEdgeInsets actionInsets;
