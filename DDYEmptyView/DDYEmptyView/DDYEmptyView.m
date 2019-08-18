@@ -187,9 +187,9 @@ DDYEmptyViewProperty(CGPoint, offset)
     CGFloat imageTitleMargin = (self.imageValue && self.titleValue) ? 20 : 0;
     CGSize titleSize = CGSizeZero;
     CGFloat titleDetailMargin = (self.titleValue && self.detailValue) ? 20 : 0;
-    CGRect detailFrame = CGRectZero;
+    CGSize detailSize = CGSizeZero;
     CGFloat detailActionMargin = (self.detailValue && self.actionTitleValue) ? 20 : 0;
-    CGRect actionFrame = CGRectZero;
+    CGSize actionSize = CGSizeZero;
     
     
     
@@ -217,15 +217,24 @@ DDYEmptyViewProperty(CGPoint, offset)
     if (self.titleValue && self.titleValue.length>0 && self.detailValue && self.detailValue.length>0) {
         titleDetailMargin = self.titleDetailMarginValue ?: [DDYEmptyConfig defaultConfig].titleDetailMargin;
     }
-    
+    // 详细描述
     if (self.detailValue && self.detailValue.length>0) {
         UIFont *font = self.detailFontValue ?: [DDYEmptyConfig defaultConfig].detailFont ?: [UIFont systemFontOfSize:14];
         self.detailLabel.font = font;
         self.detailLabel.text = self.detailValue;
         self.detailLabel.preferredMaxLayoutWidth = self.detailMaxWidthValue>0 ? self.detailMaxWidthValue : 280;
         self.detailLabel.textColor = self.detailColorValue ?: [DDYEmptyConfig defaultConfig].detailColor ?: ddyEmptyColor(120.0, 120.0, 120.0);
-        titleSize = [self sizeWithLabel:self.detailLabel];
+        detailSize = [self sizeWithLabel:self.detailLabel];
     }
+    // 详细描述和按钮间距
+    if (self.detailValue && self.detailValue.length>0 && self.actionTitleValue && self.actionTitleValue.length>0) {
+        detailActionMargin = self.detailActionMarginValue ?: [DDYEmptyConfig defaultConfig].detailActionMargin;
+    }
+    // 按钮
+    if (self.actionTitleValue && self.actionTitleValue.length>0) {
+        
+    }
+    
 }
 
 // 构造器
@@ -276,6 +285,12 @@ DDYEmptyViewProperty(CGPoint, offset)
     tempLabel.textAlignment = NSTextAlignmentCenter;
     [tempLabel sizeToFit];
     return tempLabel.frame.size;
+}
+
+- (CGSize)sizeWithButton:(UIButton *)button {
+    UIButton *tempButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    return tempButton.frame.size;
 }
 
 @end
