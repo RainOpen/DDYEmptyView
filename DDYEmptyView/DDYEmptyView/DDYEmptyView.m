@@ -210,7 +210,7 @@ DDYEmptyViewProperty(CGPoint, offset)
         self.titleLabel.font = font;
         self.titleLabel.text = self.titleValue;
         self.titleLabel.preferredMaxLayoutWidth = self.titleMaxWidthValue>0 ? self.titleMaxWidthValue : 280;
-        self.titleLabel.textColor = self.titleColorValue ?: [DDYEmptyConfig defaultConfig].titleColor ?: ddyEmptyColor(120.0, 120.0, 120.0);
+        self.titleLabel.textColor = self.titleColorValue ?: [DDYEmptyConfig defaultConfig].titleColor ?: ddyEmptyColor(80.0, 80.0, 80.0);
         titleSize = [self sizeWithLabel:self.titleLabel];
     }
     // 标题和详细描述间距
@@ -218,6 +218,14 @@ DDYEmptyViewProperty(CGPoint, offset)
         titleDetailMargin = self.titleDetailMarginValue ?: [DDYEmptyConfig defaultConfig].titleDetailMargin;
     }
     
+    if (self.detailValue && self.detailValue.length>0) {
+        UIFont *font = self.detailFontValue ?: [DDYEmptyConfig defaultConfig].detailFont ?: [UIFont systemFontOfSize:14];
+        self.detailLabel.font = font;
+        self.detailLabel.text = self.detailValue;
+        self.detailLabel.preferredMaxLayoutWidth = self.detailMaxWidthValue>0 ? self.detailMaxWidthValue : 280;
+        self.detailLabel.textColor = self.detailColorValue ?: [DDYEmptyConfig defaultConfig].detailColor ?: ddyEmptyColor(120.0, 120.0, 120.0);
+        titleSize = [self sizeWithLabel:self.detailLabel];
+    }
 }
 
 // 构造器
