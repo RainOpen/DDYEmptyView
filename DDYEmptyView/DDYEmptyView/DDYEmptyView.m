@@ -232,7 +232,10 @@ DDYEmptyViewProperty(CGPoint, offset)
     }
     // 按钮
     if (self.actionTitleValue && self.actionTitleValue.length>0) {
-        
+        UIFont *font = self.actionFontValue ?: [DDYEmptyConfig defaultConfig].actionFont ?: [UIFont systemFontOfSize:16];
+        [self.actionButton setTitle:self.actionTitleValue forState:UIControlStateNormal];
+        [self.actionButton.titleLabel setFont:font];
+        actionSize = [self sizeWithButton:self.actionButton];
     }
     
 }
@@ -289,7 +292,9 @@ DDYEmptyViewProperty(CGPoint, offset)
 
 - (CGSize)sizeWithButton:(UIButton *)button {
     UIButton *tempButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
+    [tempButton setTitle:button.titleLabel.text forState:UIControlStateNormal];
+    tempButton.titleLabel.font = button.titleLabel.font;
+    [tempButton sizeToFit];
     return tempButton.frame.size;
 }
 
