@@ -1,5 +1,7 @@
 #import <UIKit/UIKit.h>
 
+// 事件回调
+typedef void (^DDYEmptyBlock)(void);
 
 @interface DDYEmptyView : UIView
 
@@ -16,10 +18,15 @@
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detail)(NSString *detail);
 /** 无数据占位按钮标题(自定义时设置无效) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionTitle)(NSString *actionTitle);
+
+/** 按钮点击事件target */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^target)(id target);
+/** 按钮点击事件selector */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^selector)(SEL selector);
 /** 内容区域点击事件回调(自定义时设置无效) */
-@property (nonatomic, copy) void (^contentViewClickBlock)(void);
+@property (nonatomic, copy, readonly) DDYEmptyView *(^contentBlock)(DDYEmptyBlock contentBlock);
 /** 按钮点击事件回调(自定义时设置无效) */
-@property (nonatomic, copy) void (^actionButtonClickBlock)(void);
+@property (nonatomic, copy, readonly) DDYEmptyView *(^actionBlock)(DDYEmptyBlock actionBlock);
 
 /** 是否根据Section自动显隐(自定义时设置也有效) 默认YES */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^autoShowWithSection)(BOOL autoShowWithSection);
@@ -34,24 +41,18 @@
 @property (nonatomic, copy, readonly) DDYEmptyView *(^bgColor)(UIColor *bgColor);
 /** 图片大小 默认图片大小 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^imageSize)(CGSize imageSize);
-/** 图片与标题间距 默认20 */
-@property (nonatomic, copy, readonly) DDYEmptyView *(^imageTitleMargin)(CGFloat imageTitleMargin);
 /** 标题字体 默认16号字体 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleFont)(UIFont *titleFont);
 /** 标题字色 默认RGBA(80.0/255.0, 80.0/255.0, 80.0/255.0, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleColor)(UIColor *titleColor);
 /** 标题最大长度 默认280 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^titleMaxWidth)(CGFloat titleMaxWidth);
-/** 标题与详细描述间距 默认20 */
-@property (nonatomic, copy, readonly) DDYEmptyView *(^titleDetailMargin)(CGFloat titleDetailMargin);
 /** 详细描述字体 默认14号字体 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailFont)(UIFont *detailFont);
 /** 详细描述字色 默认RGBA(120.0/255.0, 120.0/255.0, 120.0/255.0, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailColor)(UIColor *detailColor);
 /** 详细描述最大长度 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^detailMaxWidth)(CGFloat detailMaxWidth);
-/** 详细描述与按钮间距 默认20 */
-@property (nonatomic, copy, readonly) DDYEmptyView *(^detailActionMargin)(CGFloat detailActionMargin);
 /** 按钮字体 默认14号字体 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionFont)(UIFont *actionFont);
 /** 按钮字色 默认RGBA(80.0/255.0, 80.0/255.0, 80.0/255.0, 1.0) */
@@ -67,6 +68,8 @@
 /** 按钮圆角 默认0 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionCornerRadius)(CGFloat actionCornerRadius);
 
+/** 间距 默认20 */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^subMargin)(CGFloat subMargin);
 /** 内容偏移调整 默认zero */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^offset)(CGPoint offset);
 

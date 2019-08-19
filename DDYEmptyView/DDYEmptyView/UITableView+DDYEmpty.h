@@ -6,9 +6,3 @@
 @property (nonatomic, strong) DDYEmptyView *ddy_EmptyView;
 
 @end
-
-@interface UICollectionView (DDYEmpty)
-
-@property (nonatomic, strong) DDYEmptyView *ddy_EmptyView;
-
-@end
