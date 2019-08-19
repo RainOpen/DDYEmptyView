@@ -1,5 +1,5 @@
 #import "DDYEmptyView.h"
-#import "DDYEmptyConfig.h"
+#import "UIView+DDYExtension.h"
 
 #define DDYEmptyViewProperty(TYPE, NAME) \
 - (DDYEmptyView *(^)(TYPE))NAME {\
@@ -28,9 +28,10 @@ inline UIColor *ddyEmptyColor(int r, int g, int b) { return [UIColor colorWithRe
 /** 无数据占位按钮标题*/
 @property (nonatomic, copy) NSString *actionTitleValue;
 
-
-/** 是否自动显隐(自定义时设置也有效) */
-@property (nonatomic, assign) BOOL autoShowValue;
+/** 是否根据Section自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, assign, readwrite) BOOL autoShowWithSectionValue;
+/** 是否根据Cell自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, assign, readwrite) BOOL autoShowWithCellValue;
 
 /** 整体背景色 默认RGBA(250.0/255.0, 250.0/255.0, 250.0/255.0, 1.0) */
 @property (nonatomic, strong) UIColor *bgColorValue;
@@ -58,8 +59,8 @@ inline UIColor *ddyEmptyColor(int r, int g, int b) { return [UIColor colorWithRe
 @property (nonatomic, strong) UIFont *actionFontValue;
 /** 按钮字色 默认RGBA(0.3, 0.3, 0.3, 1.0) */
 @property (nonatomic, strong) UIColor *actionColorValue;
-/** 按钮内边距 默认zero */
-@property (nonatomic) UIEdgeInsets actionInsetsValue;
+/** 按钮大小 默认为适应文字 */
+@property (nonatomic, assign) CGSize actionSizeValue;
 /** 按钮背景色 默认clear */
 @property (nonatomic, strong) UIColor *actionBackgroundColorValue;
 /** 按钮边色 默认clear */
@@ -97,7 +98,8 @@ DDYEmptyViewProperty(NSString *, title)
 DDYEmptyViewProperty(NSString *, detail)
 DDYEmptyViewProperty(NSString *, actionTitle)
 
-DDYEmptyViewProperty(BOOL, autoShow)
+DDYEmptyViewProperty(BOOL, autoShowWithSection)
+DDYEmptyViewProperty(BOOL, autoShowWithCell)
 
 DDYEmptyViewProperty(UIColor *, bgColor)
 DDYEmptyViewProperty(CGSize, imageSize)
@@ -112,6 +114,7 @@ DDYEmptyViewProperty(CGFloat, detailMaxWidth)
 DDYEmptyViewProperty(CGFloat, detailActionMargin)
 DDYEmptyViewProperty(UIFont *, actionFont)
 DDYEmptyViewProperty(UIColor *, actionColor)
+DDYEmptyViewProperty(CGSize, actionSize)
 DDYEmptyViewProperty(UIColor *, actionBackgroundColor)
 DDYEmptyViewProperty(UIColor *, actionBorderColor)
 DDYEmptyViewProperty(CGFloat, actionBorderWidth)
@@ -126,8 +129,14 @@ DDYEmptyViewProperty(CGPoint, offset)
     }
 }
 
-// MARK:- 懒加载
+- (void)setCustomViewValue:(UIView *)customViewValue {
+    _customViewValue = customViewValue;
+    if (customViewValue) {
+         [self addSubview:customViewValue];
+    }
+}
 
+// MARK:- 懒加载
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [[UIView alloc] init];
@@ -144,7 +153,6 @@ DDYEmptyViewProperty(CGPoint, offset)
 
 
 // MARK:- 声明周期
-
 - (instancetype)init {
     if (self = [super init]) {
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
@@ -165,8 +173,8 @@ DDYEmptyViewProperty(CGPoint, offset)
     if (self.superview && [self.superview isKindOfClass:[UIView class]]) {
         self.frame = self.superview.bounds;
         
-        CGFloat centerX = self.bounds.size.width/2.0 + self.offsetValue.x;
-        CGFloat centerY = self.bounds.size.height/2.0 + self.offsetValue.y;
+        CGFloat centerX = self.ddy_w/2.0 + self.offsetValue.x;
+        CGFloat centerY = self.ddy_h/2.0 + self.offsetValue.y;
         
         self.contentView.hidden = _customViewValue ? YES : NO;
         
@@ -177,105 +185,104 @@ DDYEmptyViewProperty(CGPoint, offset)
             [self layoutContentSubviews];
         }
     }
-    
-    
 }
 
 - (void)layoutContentSubviews {
     
+    CGPoint offset = CGPointZero;
     CGSize imageSize = CGSizeZero;
-    CGFloat imageTitleMargin = (self.imageValue && self.titleValue) ? 20 : 0;
+    CGFloat imageTitleMargin = 0;
     CGSize titleSize = CGSizeZero;
-    CGFloat titleDetailMargin = (self.titleValue && self.detailValue) ? 20 : 0;
+    CGFloat titleDetailMargin = 0;
     CGSize detailSize = CGSizeZero;
-    CGFloat detailActionMargin = (self.detailValue && self.actionTitleValue) ? 20 : 0;
+    CGFloat detailActionMargin = 0;
     CGSize actionSize = CGSizeZero;
     
-    
-    
+    // 整体内容部分
+    self.backgroundColor = self.bgColorValue ?: ddyEmptyColor(250.0, 250.0, 250.0);
+    offset = CGPointMake(self.offsetValue.x ?: 0, self.offsetValue.y ?: 0);
     // 图片视图部分(即使超出范围也不缩放)
     if (self.imageValue) {
         self.imageView.image = self.imageValue;
-        CGFloat imgW = self.imageSizeValue.width ?: [DDYEmptyConfig defaultConfig].imageSize.width ?: self.imageValue.size.width;
-        CGFloat imgH = self.imageSizeValue.height ?: [DDYEmptyConfig defaultConfig].imageSize.height ?: self.imageValue.size.height;
-        imageSize = CGSizeMake(imgW, imgH);
+        imageSize = CGSizeMake(self.imageSizeValue.width ?: self.imageValue.size.width, self.imageSizeValue.height ?: self.imageValue.size.height);
     }
     // 图片和标题间距
     if (self.imageValue && self.titleValue && self.titleValue.length>0) {
-        imageTitleMargin = self.imageTitleMarginValue ?: [DDYEmptyConfig defaultConfig].imageTitleMargin;
+        imageTitleMargin = self.imageTitleMarginValue ?: 20;
     }
     // 标题
     if (self.titleValue && self.titleValue.length>0) {
-        UIFont *font = self.titleFontValue ?: [DDYEmptyConfig defaultConfig].titleFont ?: [UIFont systemFontOfSize:16];
+        UIFont *font = self.titleFontValue ?: [UIFont systemFontOfSize:16];
         self.titleLabel.font = font;
         self.titleLabel.text = self.titleValue;
         self.titleLabel.preferredMaxLayoutWidth = self.titleMaxWidthValue>0 ? self.titleMaxWidthValue : 280;
-        self.titleLabel.textColor = self.titleColorValue ?: [DDYEmptyConfig defaultConfig].titleColor ?: ddyEmptyColor(80.0, 80.0, 80.0);
+        self.titleLabel.textColor = self.titleColorValue ?: ddyEmptyColor(80.0, 80.0, 80.0);
         titleSize = [self sizeWithLabel:self.titleLabel];
     }
     // 标题和详细描述间距
     if (self.titleValue && self.titleValue.length>0 && self.detailValue && self.detailValue.length>0) {
-        titleDetailMargin = self.titleDetailMarginValue ?: [DDYEmptyConfig defaultConfig].titleDetailMargin;
+        titleDetailMargin = self.titleDetailMarginValue ?: 20;
     }
     // 详细描述
     if (self.detailValue && self.detailValue.length>0) {
-        UIFont *font = self.detailFontValue ?: [DDYEmptyConfig defaultConfig].detailFont ?: [UIFont systemFontOfSize:14];
+        UIFont *font = self.detailFontValue ?: [UIFont systemFontOfSize:14];
         self.detailLabel.font = font;
         self.detailLabel.text = self.detailValue;
         self.detailLabel.preferredMaxLayoutWidth = self.detailMaxWidthValue>0 ? self.detailMaxWidthValue : 280;
-        self.detailLabel.textColor = self.detailColorValue ?: [DDYEmptyConfig defaultConfig].detailColor ?: ddyEmptyColor(120.0, 120.0, 120.0);
+        self.detailLabel.textColor = self.detailColorValue ?: ddyEmptyColor(120.0, 120.0, 120.0);
         detailSize = [self sizeWithLabel:self.detailLabel];
     }
     // 详细描述和按钮间距
     if (self.detailValue && self.detailValue.length>0 && self.actionTitleValue && self.actionTitleValue.length>0) {
-        detailActionMargin = self.detailActionMarginValue ?: [DDYEmptyConfig defaultConfig].detailActionMargin;
+        detailActionMargin = self.detailActionMarginValue ?: 20;
     }
     // 按钮
     if (self.actionTitleValue && self.actionTitleValue.length>0) {
-        UIFont *font = self.actionFontValue ?: [DDYEmptyConfig defaultConfig].actionFont ?: [UIFont systemFontOfSize:16];
+        UIFont *font = self.actionFontValue ?: [UIFont systemFontOfSize:16];
         [self.actionButton setTitle:self.actionTitleValue forState:UIControlStateNormal];
+        [self.actionButton setTitleColor:self.actionColorValue ?: ddyEmptyColor(80.0, 80.0, 80.0) forState:UIControlStateNormal];
+        [self.actionButton setBackgroundColor:self.actionBackgroundColorValue ?: [UIColor clearColor]];
+        [self.actionButton.layer setBorderColor:self.actionBorderColorValue ? self.actionBorderColorValue.CGColor : [UIColor clearColor].CGColor];
+        [self.actionButton.layer setBorderWidth:self.actionBorderWidthValue ?: 0];
+        [self.actionButton.layer setCornerRadius:self.actionCornerRadiusValue ?: 0];
+        [self.actionButton.layer setMasksToBounds:YES];
         [self.actionButton.titleLabel setFont:font];
         actionSize = [self sizeWithButton:self.actionButton];
     }
+    // 布局
+    self.titleLabel.ddy_centerX = self.ddy_w/2.0 + offset.x;
+    self.titleLabel.ddy_bottom = self.ddy_h/2.0 - titleDetailMargin/2.0 + offset.y;
+    self.titleLabel.ddy_size = titleSize;
     
+    self.imageView.ddy_centerX = self.titleLabel.ddy_centerX;
+    self.imageView.ddy_bottom = self.titleLabel.ddy_x - imageTitleMargin;
+    self.imageView.ddy_size = imageSize;
+    
+    self.detailLabel.ddy_centerX = self.titleLabel.ddy_centerX;
+    self.detailLabel.ddy_x = self.titleLabel.ddy_bottom + titleDetailMargin;
+    self.detailLabel.ddy_size = detailSize;
+    
+    self.actionButton.ddy_centerX = self.titleLabel.ddy_centerX;
+    self.actionButton.ddy_x = self.detailLabel.ddy_bottom + titleDetailMargin;
+    self.actionButton.ddy_size = actionSize;
 }
 
 // 构造器
-
 + (instancetype)emptyView {
     return [[self alloc] init];
 }
 
 // MARK:- 事件响应
-
 - (void)tapContentView {
     if (self.contentViewClickBlock) {
         self.contentViewClickBlock();
     }
 }
 
-
 // MARK:- 设置
 - (void)setImageViewAttributes:(void (^)(DDYEmptyView *, UIImageView *))attributes {
     if (attributes) {
         attributes(self, self.imageView);
-    }
-}
-
-- (void)show {
-    self.hidden = NO;
-    
-    self.backgroundColor = (_bgColorValue ?: [DDYEmptyConfig defaultConfig].backgroundColor) ?: ddyEmptyColor(250.0, 250.0, 250.0);
-    
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    if (_customViewValue) {
-        [self addSubview:self.customViewValue];
-    } else {
-        [self addSubview:self.contentView];
-        
-        
-        
     }
 }
 
@@ -295,7 +302,17 @@ DDYEmptyViewProperty(CGPoint, offset)
     [tempButton setTitle:button.titleLabel.text forState:UIControlStateNormal];
     tempButton.titleLabel.font = button.titleLabel.font;
     [tempButton sizeToFit];
-    return tempButton.frame.size;
+    return CGSizeMake(self.actionSizeValue.width ?: tempButton.ddy_w, self.actionSizeValue.height ?: tempButton.ddy_h);
+}
+
+- (void)hide:(BOOL)hide closeAutoShow:(BOOL)closeAutoShow {
+    if (closeAutoShow) {
+        self.autoShowWithSectionValue = NO;
+        self.autoShowWithCellValue = NO;
+    }
+    [self setHidden:hide];
+    [self.superview layoutIfNeeded];
+    [self.superview bringSubviewToFront:self];
 }
 
 @end

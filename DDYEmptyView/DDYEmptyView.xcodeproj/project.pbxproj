@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9C775F87230538F3001C1199 /* DDYEmptyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C775F86230538F3001C1199 /* DDYEmptyConfig.m */; };
+		9C775F91230A353B001C1199 /* UIView+DDYEmpty.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C775F90230A353B001C1199 /* UIView+DDYEmpty.m */; };
+		9C775F94230A4AD5001C1199 /* UIView+DDYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C775F93230A4AD5001C1199 /* UIView+DDYExtension.m */; };
 		9CD37ACF2300FF6900CDE3A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CD37AC52300FF6900CDE3A5 /* Assets.xcassets */; };
 		9CD37AD02300FF6900CDE3A5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD37AC62300FF6900CDE3A5 /* ViewController.m */; };
 		9CD37AD12300FF6900CDE3A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CD37AC72300FF6900CDE3A5 /* LaunchScreen.storyboard */; };
@@ -19,8 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9C775F85230538F3001C1199 /* DDYEmptyConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDYEmptyConfig.h; sourceTree = "<group>"; };
-		9C775F86230538F3001C1199 /* DDYEmptyConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDYEmptyConfig.m; sourceTree = "<group>"; };
+		9C775F8F230A353B001C1199 /* UIView+DDYEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+DDYEmpty.h"; sourceTree = "<group>"; };
+		9C775F90230A353B001C1199 /* UIView+DDYEmpty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DDYEmpty.m"; sourceTree = "<group>"; };
+		9C775F92230A4AD5001C1199 /* UIView+DDYExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+DDYExtension.h"; sourceTree = "<group>"; };
+		9C775F93230A4AD5001C1199 /* UIView+DDYExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DDYExtension.m"; sourceTree = "<group>"; };
 		9CD37AAA2300FF4E00CDE3A5 /* DDYEmptyView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDYEmptyView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD37AC42300FF6900CDE3A5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9CD37AC52300FF6900CDE3A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,8 +71,10 @@
 			children = (
 				9CD37AD62301013400CDE3A5 /* DDYEmptyView.h */,
 				9CD37AD72301013400CDE3A5 /* DDYEmptyView.m */,
-				9C775F85230538F3001C1199 /* DDYEmptyConfig.h */,
-				9C775F86230538F3001C1199 /* DDYEmptyConfig.m */,
+				9C775F92230A4AD5001C1199 /* UIView+DDYExtension.h */,
+				9C775F93230A4AD5001C1199 /* UIView+DDYExtension.m */,
+				9C775F8F230A353B001C1199 /* UIView+DDYEmpty.h */,
+				9C775F90230A353B001C1199 /* UIView+DDYEmpty.m */,
 			);
 			path = DDYEmptyView;
 			sourceTree = "<group>";
@@ -163,8 +168,9 @@
 			files = (
 				9CD37AD82301013400CDE3A5 /* DDYEmptyView.m in Sources */,
 				9CD37AD32300FF6900CDE3A5 /* main.m in Sources */,
+				9C775F94230A4AD5001C1199 /* UIView+DDYExtension.m in Sources */,
+				9C775F91230A353B001C1199 /* UIView+DDYEmpty.m in Sources */,
 				9CD37AD02300FF6900CDE3A5 /* ViewController.m in Sources */,
-				9C775F87230538F3001C1199 /* DDYEmptyConfig.m in Sources */,
 				9CD37AD42300FF6900CDE3A5 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

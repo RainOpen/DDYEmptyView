@@ -21,8 +21,14 @@
 /** 按钮点击事件回调(自定义时设置无效) */
 @property (nonatomic, copy) void (^actionButtonClickBlock)(void);
 
-/** 是否自动显隐(自定义时设置也有效) */
-@property (nonatomic, copy, readonly) DDYEmptyView *(^autoShow)(BOOL autoShow);
+/** 是否根据Section自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^autoShowWithSection)(BOOL autoShowWithSection);
+/** 是否根据Cell自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^autoShowWithCell)(BOOL autoShowWithCell);
+/** 得到 是否根据Section自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, assign, readonly) BOOL autoShowWithSectionValue;
+/** 得到 是否根据Cell自动显隐(自定义时设置也有效) 默认YES */
+@property (nonatomic, assign, readonly) BOOL autoShowWithCellValue;
 
 /** 整体背景色 默认RGBA(250.0/255.0, 250.0/255.0, 250.0/255.0, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^bgColor)(UIColor *bgColor);
@@ -50,8 +56,8 @@
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionFont)(UIFont *actionFont);
 /** 按钮字色 默认RGBA(80.0/255.0, 80.0/255.0, 80.0/255.0, 1.0) */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionColor)(UIColor *actionColor);
-/** 按钮内边距 默认zero */
-@property (nonatomic, copy, readonly) DDYEmptyView *(^actionInsets)(UIEdgeInsets actionInsets);
+/** 按钮大小 默认为适应文字 */
+@property (nonatomic, copy, readonly) DDYEmptyView *(^actionSize)(CGSize actionSize);
 /** 按钮背景色 默认clear */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^actionBackgroundColor)(UIColor *actionBackgroundColor);
 /** 按钮边色 默认clear */
@@ -69,6 +75,9 @@
 
 + (instancetype)emptyView;
 
+// !!!: 手动控制显隐,不受DataSource的影响
+/** 手动调用显隐 */
+- (void)hide:(BOOL)hide closeAutoShow:(BOOL)closeAutoShow;
 
 @end
 
