@@ -95,53 +95,214 @@ static inline UIColor *ddyEmptyColor(int r, int g, int b) { return [UIColor colo
 @implementation DDYEmptyView
 
 // MARK:- 设置
-
-DDYEmptyViewProperty(UIView *, customView)
-DDYEmptyViewProperty(UIImage *, image)
-DDYEmptyViewProperty(NSString *, imageName)
-DDYEmptyViewProperty(NSString *, title)
-DDYEmptyViewProperty(NSString *, detail)
-DDYEmptyViewProperty(NSString *, actionTitle)
-
-DDYEmptyViewProperty(id, target)
-DDYEmptyViewProperty(SEL, selector)
-DDYEmptyViewProperty(DDYEmptyBlock, contentBlock)
-DDYEmptyViewProperty(DDYEmptyBlock, actionBlock)
-
-DDYEmptyViewProperty(BOOL, autoShowWithSection)
-DDYEmptyViewProperty(BOOL, autoShowWithCell)
-
-DDYEmptyViewProperty(UIColor *, bgColor)
-DDYEmptyViewProperty(CGSize, imageSize)
-DDYEmptyViewProperty(UIFont *, titleFont)
-DDYEmptyViewProperty(UIColor *, titleColor)
-DDYEmptyViewProperty(CGFloat, titleMaxWidth)
-DDYEmptyViewProperty(UIFont *, detailFont)
-DDYEmptyViewProperty(UIColor *, detailColor)
-DDYEmptyViewProperty(CGFloat, detailMaxWidth)
-DDYEmptyViewProperty(UIFont *, actionFont)
-DDYEmptyViewProperty(UIColor *, actionColor)
-DDYEmptyViewProperty(CGSize, actionSize)
-DDYEmptyViewProperty(UIColor *, actionBackgroundColor)
-DDYEmptyViewProperty(UIColor *, actionBorderColor)
-DDYEmptyViewProperty(CGFloat, actionBorderWidth)
-DDYEmptyViewProperty(CGFloat, actionCornerRadius)
-DDYEmptyViewProperty(CGFloat, subMargin)
-DDYEmptyViewProperty(CGPoint, offset)
-
-- (void)setImageNameValue:(NSString *)imageNameValue {
-    _imageNameValue = imageNameValue;
-    UIImage *img = [UIImage imageNamed:imageNameValue];
-    if (img) {
-        self.imageValue = img;
-    }
+- (DDYEmptyView *(^)(UIView *))customView {
+    return ^DDYEmptyView *(UIView *customView) {
+        self.customViewValue = customView;
+        if (customView) {
+            [self addSubview:customView];
+        }
+        return self;
+    };
 }
 
-- (void)setCustomViewValue:(UIView *)customViewValue {
-    _customViewValue = customViewValue;
-    if (customViewValue) {
-         [self addSubview:customViewValue];
-    }
+- (DDYEmptyView *(^)(UIImage *))image {
+    return ^DDYEmptyView *(UIImage *image) {
+        self.imageValue = image;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(NSString *))imageName {
+    return ^DDYEmptyView *(NSString *imageName) {
+        self.imageNameValue = imageName;
+        UIImage *img = [UIImage imageNamed:imageName];
+        if (img) {
+            self.imageValue = img;
+        }
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(NSString *))title {
+    return ^DDYEmptyView *(NSString *title) {
+        self.titleValue = title;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(NSString *))detail {
+    return ^DDYEmptyView *(NSString *detail) {
+        self.detailValue = detail;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(NSString *))actionTitle {
+    return ^DDYEmptyView *(NSString *actionTitle) {
+        self.actionTitleValue = actionTitle;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(id))target {
+    return ^DDYEmptyView *(id target) {
+        self.targetValue = target;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(SEL))selector {
+    return ^DDYEmptyView *(SEL selector) {
+        self.selectorValue = selector;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(DDYEmptyBlock))contentBlock {
+    return ^DDYEmptyView *(DDYEmptyBlock contentBlock) {
+        self.contentBlockValue = contentBlock;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(DDYEmptyBlock))actionBlock {
+    return ^DDYEmptyView *(DDYEmptyBlock actionBlock) {
+        self.actionBlockValue = actionBlock;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(BOOL))autoShowWithSection {
+    return ^DDYEmptyView *(BOOL autoShowWithSection) {
+        self.autoShowWithSectionValue = autoShowWithSection;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(BOOL))autoShowWithCell {
+    return ^DDYEmptyView *(BOOL autoShowWithCell) {
+        self.autoShowWithCellValue = autoShowWithCell;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))bgColor {
+    return ^DDYEmptyView *(UIColor *bgColor) {
+        self.bgColorValue = bgColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGSize))imageSize {
+    return ^DDYEmptyView *(CGSize imageSize) {
+        self.imageSizeValue = imageSize;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIFont *))titleFont {
+    return ^DDYEmptyView *(UIFont *titleFont) {
+        self.titleFontValue = titleFont;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))titleColor {
+    return ^DDYEmptyView *(UIColor *titleColor) {
+        self.titleColorValue = titleColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGFloat))titleMaxWidth {
+    return ^DDYEmptyView *(CGFloat titleMaxWidth) {
+        self.titleMaxWidthValue = titleMaxWidth;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIFont *))detailFont {
+    return ^DDYEmptyView *(UIFont *detailFont) {
+        self.detailFontValue = detailFont;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))detailColor {
+    return ^DDYEmptyView *(UIColor *detailColor) {
+        self.detailColorValue = detailColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGFloat))detailMaxWidth {
+    return ^DDYEmptyView *(CGFloat detailMaxWidth) {
+        self.detailMaxWidthValue = detailMaxWidth;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIFont *))actionFont {
+    return ^DDYEmptyView *(UIFont *actionFont) {
+        self.actionFontValue = actionFont;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))actionColor {
+    return ^DDYEmptyView *(UIColor *actionColor) {
+        self.actionColorValue = actionColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGSize))actionSize {
+    return ^DDYEmptyView *(CGSize actionSize) {
+        self.actionSizeValue = actionSize;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))actionBackgroundColor {
+    return ^DDYEmptyView *(UIColor *actionBackgroundColor) {
+        self.actionBackgroundColorValue = actionBackgroundColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(UIColor *))actionBorderColor {
+    return ^DDYEmptyView *(UIColor *actionBorderColor) {
+        self.actionBorderColorValue = actionBorderColor;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGFloat))actionBorderWidth {
+    return ^DDYEmptyView *(CGFloat actionBorderWidth) {
+        self.actionBorderWidthValue = actionBorderWidth;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGFloat))actionCornerRadius {
+    return ^DDYEmptyView *(CGFloat actionCornerRadius) {
+        self.actionCornerRadiusValue = actionCornerRadius;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGFloat))subMargin {
+    return ^DDYEmptyView *(CGFloat subMargin) {
+        self.subMarginValue = subMargin;
+        return self;
+    };
+}
+
+- (DDYEmptyView *(^)(CGPoint))offset {
+    return ^DDYEmptyView *(CGPoint offset) {
+        self.offsetValue = offset;
+        return self;
+    };
 }
 
 // MARK:- 懒加载
