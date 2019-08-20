@@ -9,7 +9,7 @@ Pod::Spec.new do |ddyspec|
     ddyspec.source       = {:git => 'https://github.com/RainOpen/DDYEmptyView.git', :tag => ddyspec.version}
     ddyspec.source_files = 'DDYEmptyView/DDYEmptyView/*.{h,m}'
     # ddyspec.resource     = 'DDYEmptyView/DDYEmptyView/DDYEmptyView.bundle'
-    ddyspec.requires_arc = false
+    # ddyspec.requires_arc = false
     # s.framework  = "AVFoundation"
     # s.frameworks = "UIKit", "AVFoundation"
     # s.dependency "JSONKit", "~> 1.4"
