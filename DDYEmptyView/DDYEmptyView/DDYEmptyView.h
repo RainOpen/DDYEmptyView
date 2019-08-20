@@ -5,6 +5,7 @@ typedef void (^DDYEmptyBlock)(void);
 
 @interface DDYEmptyView : UIView
 
+// - (DDYEmptyView * (^)(UIView *customView))customView;
 /** 无数据占位自定义视图 */
 @property (nonatomic, copy, readonly) DDYEmptyView *(^customView)(UIView *customView);
 

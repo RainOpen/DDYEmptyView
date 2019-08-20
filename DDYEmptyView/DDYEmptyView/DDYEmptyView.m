@@ -96,6 +96,15 @@ static inline UIColor *ddyEmptyColor(int r, int g, int b) { return [UIColor colo
 
 // MARK:- 设置
 - (DDYEmptyView *(^)(UIView *))customView {
+    
+//    return ^(UIView *customView){
+//        self.customViewValue = customView;
+//        if (customView) {
+//            [self addSubview:customView];
+//        }
+//        return self;
+//    };
+    
     return ^DDYEmptyView *(UIView *customView) {
         self.customViewValue = customView;
         if (customView) {
