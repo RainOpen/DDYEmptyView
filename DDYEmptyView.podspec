@@ -1,6 +1,6 @@
 Pod::Spec.new do |ddyspec|
     ddyspec.name         = 'DDYEmptyView'
-    ddyspec.version      = '1.0.1'
+    ddyspec.version      = '1.0.0'
     ddyspec.summary      = 'UITableView、UICollectionView空白占位'
     ddyspec.homepage     = 'https://github.com/RainOpen/DDYEmptyView'
     ddyspec.license      = 'MIT'
