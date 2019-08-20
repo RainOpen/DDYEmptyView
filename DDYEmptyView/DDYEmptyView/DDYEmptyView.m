@@ -178,6 +178,7 @@ DDYEmptyViewProperty(CGPoint, offset)
 - (UIButton *)actionButton {
     if (!_actionButton) {
         _actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _actionButton.contentEdgeInsets = UIEdgeInsetsZero;
     }
     return _actionButton;
 }
@@ -243,6 +244,7 @@ DDYEmptyViewProperty(CGPoint, offset)
         self.titleLabel.text = self.titleValue;
         self.titleLabel.preferredMaxLayoutWidth = self.titleMaxWidthValue>0 ? self.titleMaxWidthValue : 280;
         self.titleLabel.textColor = self.titleColorValue ?: ddyEmptyColor(80.0, 80.0, 80.0);
+        self.titleLabel.preferredMaxLayoutWidth = self.detailMaxWidthValue>0 ? self.detailMaxWidthValue : 280;
         titleSize = [self sizeWithLabel:self.titleLabel];
         titleTopMargin = self.subMarginValue>0 ? self.subMarginValue : 20;
     }
@@ -267,12 +269,14 @@ DDYEmptyViewProperty(CGPoint, offset)
         [self.actionButton.layer setCornerRadius:self.actionCornerRadiusValue ?: 0];
         [self.actionButton.layer setMasksToBounds:YES];
         [self.actionButton.titleLabel setFont:font];
+        [self.actionButton.titleLabel setPreferredMaxLayoutWidth:self.detailMaxWidthValue>0 ? self.detailMaxWidthValue : 280];
         if (self.targetValue && self.selectorValue) {
             [self.actionButton addTarget:self.targetValue action:self.selectorValue forControlEvents:UIControlEventTouchUpInside];
         } else {
             [self.actionButton addTarget:self action:@selector(handleAction) forControlEvents:UIControlEventTouchUpInside];
         }
-        actionSize = [self sizeWithButton:self.actionButton];
+        CGSize labelSize = [self sizeWithLabel:self.actionButton.titleLabel];
+        actionSize = CGSizeMake(self.actionSizeValue.width ?: labelSize.width, self.actionSizeValue.height ?: labelSize.height);
         actionTopMargin = self.subMarginValue>0 ? self.subMarginValue : 20;
     }
     // 布局
@@ -328,15 +332,6 @@ DDYEmptyViewProperty(CGPoint, offset)
     tempLabel.textAlignment = NSTextAlignmentCenter;
     [tempLabel sizeToFit];
     return tempLabel.frame.size;
-}
-
-- (CGSize)sizeWithButton:(UIButton *)button {
-    UIButton *tempButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [tempButton setTitle:button.titleLabel.text forState:UIControlStateNormal];
-    tempButton.titleLabel.font = button.titleLabel.font;
-    tempButton.contentEdgeInsets = UIEdgeInsetsZero;
-    [tempButton sizeToFit];
-    return CGSizeMake(self.actionSizeValue.width ?: tempButton.ddy_w, self.actionSizeValue.height ?: tempButton.ddy_h);
 }
 
 - (void)hide:(BOOL)hide closeAutoShow:(BOOL)closeAutoShow {
