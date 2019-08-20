@@ -41,7 +41,7 @@
     DDYEmptyBlock actionBlock = ^() {
         [weakSelf loadTestData];
     };
-    self.tableView.ddy_EmptyView = [DDYEmptyView emptyView].title(@"wuti").imageName(@"empty_yy").actionTitle(@"8888").actionBlock(actionBlock).subMargin(1);
+    self.tableView.ddy_EmptyView = [DDYEmptyView emptyView].title(@"wuti").imageName(@"empty_yy").detail(@"9999").actionTitle(@"8888").actionBlock(actionBlock).subMargin(1);
     [self.tableView reloadData];
 }
 
