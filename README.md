@@ -2,7 +2,7 @@
 
 UITableView、UICollectionView空白占位
 
-> # 继承
+> # 集成
 
 * CocoaPods方式 
 
